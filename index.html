@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Smart Student Hub – AI-powered Study & Task Manager for organizing tasks, notes, and study schedules."
+    />
+    <title>Smart Student Hub – AI-powered Study & Task Manager</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div>
+          <p class="eyebrow">Student productivity</p>
+          <h1>Smart Student Hub</h1>
+          <p class="sidebar-copy">
+            Organize assignments, capture notes, and get rule-based study guidance.
+          </p>
+        </div>
+
+        <nav class="nav" aria-label="Primary navigation">
+          <button class="nav-link active" data-view="dashboard">Dashboard</button>
+          <button class="nav-link" data-view="tasks">Tasks</button>
+          <button class="nav-link" data-view="notes">Notes</button>
+        </nav>
+
+        <section class="card quick-tips">
+          <h2>How it works</h2>
+          <ul>
+            <li>Add tasks with priorities and deadlines.</li>
+            <li>Track your productivity from the dashboard.</li>
+            <li>Use notes to keep study ideas in one place.</li>
+          </ul>
+        </section>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">AI-powered study planner</p>
+            <h2 id="view-title">Dashboard</h2>
+          </div>
+          <p class="date-chip" id="today-label"></p>
+        </header>
+
+        <section id="dashboard-view" class="view active" aria-labelledby="view-title">
+          <div class="stats-grid">
+            <article class="card stat-card">
+              <span>Total tasks</span>
+              <strong id="total-tasks">0</strong>
+            </article>
+            <article class="card stat-card">
+              <span>Completed</span>
+              <strong id="completed-tasks">0</strong>
+            </article>
+            <article class="card stat-card">
+              <span>Pending</span>
+              <strong id="pending-tasks">0</strong>
+            </article>
+            <article class="card stat-card">
+              <span>Due today</span>
+              <strong id="due-today">0</strong>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="card focus-card">
+              <div class="section-heading">
+                <h3>Productivity score</h3>
+                <span class="badge" id="productivity-badge">0%</span>
+              </div>
+              <div class="progress-bar" aria-hidden="true">
+                <div id="productivity-fill" class="progress-fill"></div>
+              </div>
+              <p id="productivity-message" class="muted">
+                Add your first task to start measuring progress.
+              </p>
+            </section>
+
+            <section class="card focus-card">
+              <div class="section-heading">
+                <h3>Smart study scheduler</h3>
+                <span class="badge accent">Rule-based AI</span>
+              </div>
+              <ul id="study-suggestions" class="list"></ul>
+            </section>
+          </div>
+
+          <section class="card recommendations-card">
+            <div class="section-heading">
+              <h3>Smart recommendations</h3>
+              <span class="badge subtle">Dynamic tips</span>
+            </div>
+            <ul id="recommendations-list" class="list"></ul>
+          </section>
+        </section>
+
+        <section id="tasks-view" class="view" aria-labelledby="view-title">
+          <div class="panel-grid">
+            <section class="card form-card">
+              <div class="section-heading">
+                <h3 id="task-form-title">Create task</h3>
+                <span class="badge">Assignments</span>
+              </div>
+              <form id="task-form" class="stack">
+                <input type="hidden" id="task-id" />
+                <label>
+                  Title
+                  <input id="task-title" name="title" type="text" placeholder="e.g. Biology revision" required />
+                </label>
+                <label>
+                  Description
+                  <textarea
+                    id="task-description"
+                    name="description"
+                    rows="4"
+                    placeholder="What should you finish or review?"
+                  ></textarea>
+                </label>
+                <div class="two-column">
+                  <label>
+                    Deadline
+                    <input id="task-deadline" name="deadline" type="date" required />
+                  </label>
+                  <label>
+                    Priority
+                    <select id="task-priority" name="priority" required>
+                      <option value="low">Low</option>
+                      <option value="medium" selected>Medium</option>
+                      <option value="high">High</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="button-row">
+                  <button type="submit" class="primary-btn">Save task</button>
+                  <button type="button" id="task-cancel" class="secondary-btn hidden">Cancel edit</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="card list-card">
+              <div class="section-heading">
+                <h3>Task list</h3>
+                <span class="badge" id="task-count-chip">0 tasks</span>
+              </div>
+              <div id="task-empty-state" class="empty-state">
+                No tasks yet. Add your first assignment to build your study plan.
+              </div>
+              <div id="task-list" class="task-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="notes-view" class="view" aria-labelledby="view-title">
+          <div class="panel-grid notes-layout">
+            <section class="card form-card">
+              <div class="section-heading">
+                <h3 id="note-form-title">Create note</h3>
+                <span class="badge">Study notes</span>
+              </div>
+              <form id="note-form" class="stack">
+                <input type="hidden" id="note-id" />
+                <label>
+                  Title
+                  <input id="note-title" name="title" type="text" placeholder="e.g. Chemistry formulas" required />
+                </label>
+                <label>
+                  Note
+                  <textarea id="note-content" name="content" rows="8" placeholder="Write your note here..." required></textarea>
+                </label>
+                <div class="button-row">
+                  <button type="submit" class="primary-btn">Save note</button>
+                  <button type="button" id="note-cancel" class="secondary-btn hidden">Cancel edit</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="card list-card">
+              <div class="section-heading">
+                <h3>Saved notes</h3>
+                <span class="badge" id="note-count-chip">0 notes</span>
+              </div>
+              <div id="notes-empty-state" class="empty-state">
+                No notes yet. Capture key reminders, lecture summaries, or formulas.
+              </div>
+              <div id="notes-list" class="notes-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="task-template">
+      <article class="task-item">
+        <div class="task-item__header">
+          <div>
+            <h4 class="task-item__title"></h4>
+            <p class="task-item__meta"></p>
+          </div>
+          <span class="priority-pill"></span>
+        </div>
+        <p class="task-item__description"></p>
+        <div class="task-item__footer">
+          <label class="checkbox-row">
+            <input type="checkbox" class="task-toggle" />
+            <span>Completed</span>
+          </label>
+          <div class="inline-actions">
+            <button type="button" class="secondary-btn task-edit">Edit</button>
+            <button type="button" class="danger-btn task-delete">Delete</button>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <template id="note-template">
+      <article class="note-item">
+        <div class="section-heading">
+          <h4 class="note-item__title"></h4>
+          <div class="inline-actions">
+            <button type="button" class="secondary-btn note-edit">Edit</button>
+            <button type="button" class="danger-btn note-delete">Delete</button>
+          </div>
+        </div>
+        <p class="note-item__content"></p>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
